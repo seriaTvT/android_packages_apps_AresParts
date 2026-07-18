@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string-array name="led_effect_entries">
+        <item>@string/led_effect_none</item>
+        <item>@string/led_effect_static</item>
+        <item>@string/led_effect_breathing</item>
+        <item>@string/led_effect_rainbow</item>
+        <item>@string/led_effect_disco</item>
+    </string-array>
+    <string-array name="led_effect_values" translatable="false">
+        <item>none</item>
+        <item>static</item>
+        <item>breathing</item>
+        <item>rainbow</item>
+        <item>disco</item>
+    </string-array>
+
+    <string-array name="led_color_entries">
+        <item>@string/led_color_white</item>
+        <item>@string/led_color_red</item>
+        <item>@string/led_color_orange</item>
+        <item>@string/led_color_yellow</item>
+        <item>@string/led_color_green</item>
+        <item>@string/led_color_cyan</item>
+        <item>@string/led_color_blue</item>
+        <item>@string/led_color_purple</item>
+        <item>@string/led_color_pink</item>
+    </string-array>
+    <string-array name="led_color_values" translatable="false">
+        <item>#FFFFFF</item>
+        <item>#FF0000</item>
+        <item>#FF8000</item>
+        <item>#FFFF00</item>
+        <item>#00FF00</item>
+        <item>#00FFFF</item>
+        <item>#0000FF</item>
+        <item>#8000FF</item>
+        <item>#FF0080</item>
+    </string-array>
+</resources>

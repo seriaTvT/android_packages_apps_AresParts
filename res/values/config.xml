@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- Sysfs directories for the RGB LED channels. Symlinks are fine:
+         sepolicy grants system_app search/read through /sys/class/leds and
+         rw on the sysfs_rgb_led-labeled targets. Override via RRO for a
+         device with different paths. -->
+    <string name="config_led_red_dir" translatable="false">/sys/class/leds/red</string>
+    <string name="config_led_green_dir" translatable="false">/sys/class/leds/green</string>
+    <string name="config_led_blue_dir" translatable="false">/sys/class/leds/blue</string>
+</resources>

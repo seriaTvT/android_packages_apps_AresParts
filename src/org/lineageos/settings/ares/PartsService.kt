@@ -11,6 +11,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.os.UserHandle
 import android.util.Log
+import org.lineageos.settings.ares.led.LedController
 import org.lineageos.settings.ares.triggers.TriggerController
 
 /**
@@ -20,12 +21,15 @@ import org.lineageos.settings.ares.triggers.TriggerController
 class PartsService : Service() {
 
     private lateinit var triggers: TriggerController
+    private lateinit var leds: LedController
 
     override fun onCreate() {
         super.onCreate()
         Log.i(TAG, "PartsService created")
         triggers = TriggerController(this)
         triggers.start()
+        leds = LedController(this)
+        leds.start()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -40,6 +44,7 @@ class PartsService : Service() {
     override fun onDestroy() {
         Log.i(TAG, "PartsService destroyed")
         triggers.stop()
+        leds.stop()
         super.onDestroy()
     }
 

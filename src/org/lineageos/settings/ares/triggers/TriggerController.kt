@@ -13,6 +13,7 @@ import android.os.SystemClock
 import android.util.Log
 import org.lineageos.settings.ares.hw.GamekeyReader
 import org.lineageos.settings.ares.hw.TouchInjector
+import org.lineageos.settings.ares.util.ForegroundApp
 
 /**
  * Trigger state machine. Consumes GamekeyReader events and:
@@ -146,12 +147,7 @@ class TriggerController(private val context: Context) {
         }
     }
 
-    @Suppress("DEPRECATION") // getRunningTasks: fine for system uid
-    private fun foregroundPackage(): String? = try {
-        activityManager.getRunningTasks(1).firstOrNull()?.topActivity?.packageName
-    } catch (e: Exception) {
-        null
-    }
+    private fun foregroundPackage(): String? = ForegroundApp.packageName(activityManager)
 
     companion object {
         private const val TAG = "AresParts.Triggers"

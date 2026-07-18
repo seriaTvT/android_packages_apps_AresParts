@@ -32,8 +32,31 @@
 
     <!-- Category: lighting -->
     <string name="category_lighting_title">RGB light strip</string>
-    <string name="lighting_placeholder_title">Light effects</string>
-    <string name="lighting_placeholder_summary">Coming in M3 — colors and effects with charging-light handoff</string>
+    <string name="lighting_entry_title">Light effects</string>
+    <string name="lighting_entry_summary">Effect, color and brightness of the rear light strips</string>
+    <string name="led_effect_title">Effect</string>
+    <string name="led_effect_none">Off</string>
+    <string name="led_effect_static">Static color</string>
+    <string name="led_effect_breathing">Breathing</string>
+    <string name="led_effect_rainbow">Rainbow</string>
+    <string name="led_effect_disco">Disco</string>
+    <string name="led_color_title">Color</string>
+    <string name="led_color_white">White</string>
+    <string name="led_color_red">Red</string>
+    <string name="led_color_orange">Orange</string>
+    <string name="led_color_yellow">Yellow</string>
+    <string name="led_color_green">Green</string>
+    <string name="led_color_cyan">Cyan</string>
+    <string name="led_color_blue">Blue</string>
+    <string name="led_color_purple">Purple</string>
+    <string name="led_color_pink">Pink</string>
+    <string name="led_brightness_title">Brightness</string>
+    <string name="led_only_in_games_title">Only in games</string>
+    <string name="led_only_in_games_summary">Run effects only while an app from the trigger game list is in the foreground</string>
+    <string name="led_on_call_title">Flash during calls</string>
+    <string name="led_on_call_summary">Disco effect while ringing and in a call, even with the screen off</string>
+    <string name="led_charging_note">While an effect is active it takes over the light strips; the charging light resumes when effects are off.</string>
+    <string name="led_tile_label">Light effects</string>
 
     <!-- Category: vibration -->
     <string name="category_vibration_title">Vibration</string>

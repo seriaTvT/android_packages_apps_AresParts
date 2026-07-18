@@ -12,6 +12,7 @@
          device/xiaomi/mt6893-common sepolicy. -->
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INJECT_EVENTS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -55,5 +56,16 @@
         <service
             android:name=".PartsService"
             android:exported="false" />
+
+        <service
+            android:name=".led.LedTileService"
+            android:label="@string/led_tile_label"
+            android:icon="@drawable/ic_led"
+            android:exported="true"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

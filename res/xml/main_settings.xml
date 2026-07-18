@@ -20,10 +20,10 @@
         android:key="category_lighting"
         android:title="@string/category_lighting_title">
         <Preference
-            android:key="lighting_placeholder"
-            android:title="@string/lighting_placeholder_title"
-            android:summary="@string/lighting_placeholder_summary"
-            android:enabled="false" />
+            android:key="lighting_entry"
+            android:title="@string/lighting_entry_title"
+            android:summary="@string/lighting_entry_summary"
+            app:fragment="org.lineageos.settings.ares.ui.LightingSettingsFragment" />
     </PreferenceCategory>
 
     <PreferenceCategory
