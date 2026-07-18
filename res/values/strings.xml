@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string name="app_name">AresParts</string>
+    <string name="settings_tile_title">Gaming triggers &amp; lighting</string>
+    <string name="settings_tile_summary">Shoulder triggers, RGB light strip and vibration</string>
+
+    <!-- Category: triggers -->
+    <string name="category_triggers_title">Shoulder triggers</string>
+    <string name="triggers_placeholder_title">Trigger mapping</string>
+    <string name="triggers_placeholder_summary">Coming in M1 — slider detection and per-game touch mapping</string>
+
+    <!-- Category: lighting -->
+    <string name="category_lighting_title">RGB light strip</string>
+    <string name="lighting_placeholder_title">Light effects</string>
+    <string name="lighting_placeholder_summary">Coming in M3 — colors and effects with charging-light handoff</string>
+
+    <!-- Category: vibration -->
+    <string name="category_vibration_title">Vibration</string>
+    <string name="vibration_placeholder_title">Vibration strength</string>
+    <string name="vibration_placeholder_summary">Coming in M4</string>
+</resources>

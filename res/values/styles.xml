@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- Settings' own sub-screen theme (SettingsLib) + androidx preference
+         support. M2 refines widget styling to full Settings fidelity. -->
+    <style name="Theme.AresParts" parent="@style/Theme.SubSettingsBase">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+</resources>

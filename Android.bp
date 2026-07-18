@@ -1,0 +1,46 @@
+//
+// SPDX-FileCopyrightText: 2026 The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+android_app {
+    name: "AresParts",
+
+    srcs: ["src/**/*.kt"],
+    resource_dirs: ["res"],
+
+    certificate: "platform",
+    platform_apis: true,
+    system_ext_specific: true,
+    privileged: true,
+
+    static_libs: [
+        "androidx.core_core-ktx",
+        "androidx.preference_preference",
+        "SettingsLib",
+        "org.lineageos.settings.resources",
+    ],
+
+    optimize: {
+        enabled: false,
+    },
+
+    required: [
+        "privapp-permissions-aresparts.xml",
+        "init.aresparts.rc",
+    ],
+}
+
+prebuilt_etc {
+    name: "privapp-permissions-aresparts.xml",
+    src: "privapp-permissions-aresparts.xml",
+    sub_dir: "permissions",
+    system_ext_specific: true,
+}
+
+prebuilt_etc {
+    name: "init.aresparts.rc",
+    src: "init.aresparts.rc",
+    sub_dir: "init",
+    system_ext_specific: true,
+}

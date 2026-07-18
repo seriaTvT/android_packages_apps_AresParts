@@ -1,0 +1,8 @@
+on boot
+    # Allow system to access the gamekey triggers device node.
+    # LED sysfs DAC perms are handled by the vendor rc (mt6893-common
+    # init.mt6893.rc, runs as vendor_init) — do not duplicate them here:
+    # this rc ships in system_ext and its actions run as u:r:init, which
+    # cannot setattr vendor-labeled sysfs.
+    chown system system /dev/gamekey
+    chmod 0660 /dev/gamekey

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="category_triggers"
+        android:title="@string/category_triggers_title">
+        <Preference
+            android:key="triggers_placeholder"
+            android:title="@string/triggers_placeholder_title"
+            android:summary="@string/triggers_placeholder_summary"
+            android:enabled="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="category_lighting"
+        android:title="@string/category_lighting_title">
+        <Preference
+            android:key="lighting_placeholder"
+            android:title="@string/lighting_placeholder_title"
+            android:summary="@string/lighting_placeholder_summary"
+            android:enabled="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="category_vibration"
+        android:title="@string/category_vibration_title">
+        <Preference
+            android:key="vibration_placeholder"
+            android:title="@string/vibration_placeholder_title"
+            android:summary="@string/vibration_placeholder_summary"
+            android:enabled="false" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
