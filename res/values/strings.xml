@@ -22,11 +22,13 @@
     <string name="trigger_game_apps_title">Game apps</string>
     <string name="trigger_game_apps_summary">Apps where trigger mapping and the placement overlay are active</string>
     <string name="trigger_place_markers_title">Place touch points</string>
-    <string name="trigger_place_markers_summary">Drag the L/R markers where trigger presses should touch. Opening both triggers inside a game also shows this.</string>
+    <string name="trigger_place_markers_summary">Set the default L/R touch points used by all games. To give one game its own placement, open both triggers inside it — the overlay saved there applies to that game only and overrides the default.</string>
 
     <!-- Mapping overlay -->
     <string name="overlay_save">Save</string>
     <string name="overlay_cancel">Cancel</string>
+    <string name="overlay_target_app">Touch points for %1$s</string>
+    <string name="overlay_target_global">Default touch points (all games)</string>
 
     <!-- Category: lighting -->
     <string name="category_lighting_title">RGB light strip</string>

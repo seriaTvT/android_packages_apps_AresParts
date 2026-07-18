@@ -53,6 +53,9 @@ class TriggerController(private val context: Context) {
 
     fun showOverlay(forApp: String? = foregroundPackage()) {
         hideOverlay()
+        // The overlay swallows press handling below; drop any held synthetic
+        // pointers so none stay stuck down underneath it.
+        injector.releaseAll()
         val target = forApp?.takeIf { repo.isGameApp(it) }
         overlay = MappingOverlay(context, repo, target) { overlay = null }.also { it.show() }
     }
@@ -122,18 +125,21 @@ class TriggerController(private val context: Context) {
     }
 
     private fun onButton(isLeft: Boolean, pressed: Boolean) {
+        // Releases must always go through, whatever gated the press: a
+        // guarded release leaves a synthetic pointer stuck down (e.g. press
+        // → overlay auto-shows → release swallowed).
+        if (!pressed) {
+            injector.release(isLeft)
+            return
+        }
         val sliderOpen = if (isLeft) leftOpen else rightOpen
         if (!sliderOpen) return
         if (overlay != null) return // overlay owns the screen while mapping
-        if (pressed) {
-            val coords = repo.coordsFor(foregroundPackage())
-            if (isLeft) {
-                injector.press(true, coords.leftX, coords.leftY)
-            } else {
-                injector.press(false, coords.rightX, coords.rightY)
-            }
+        val coords = repo.coordsFor(foregroundPackage())
+        if (isLeft) {
+            injector.press(true, coords.leftX, coords.leftY)
         } else {
-            injector.release(isLeft)
+            injector.press(false, coords.rightX, coords.rightY)
         }
     }
 

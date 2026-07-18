@@ -10,13 +10,17 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PixelFormat
+import android.content.pm.PackageManager
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.TextView
 import org.lineageos.settings.ares.R
 
 /**
@@ -48,38 +52,75 @@ class MappingOverlay(
             ),
         )
 
-        val buttons = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            addView(Button(context).apply {
-                text = context.getString(R.string.overlay_save)
-                setOnClickListener {
-                    repo.saveCoords(targetPackage, coords)
-                    dismiss()
-                }
+        val header = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER_HORIZONTAL
+            addView(TextView(context).apply {
+                text = targetLabel()
+                setTextColor(Color.WHITE)
+                setShadowLayer(6f, 0f, 0f, Color.BLACK)
+                textSize = 16f
+                gravity = Gravity.CENTER
             })
-            addView(Button(context).apply {
-                text = context.getString(R.string.overlay_cancel)
-                setOnClickListener { dismiss() }
+            addView(LinearLayout(context).apply {
+                orientation = LinearLayout.HORIZONTAL
+                addView(Button(context).apply {
+                    text = context.getString(R.string.overlay_save)
+                    setOnClickListener {
+                        repo.saveCoords(targetPackage, coords)
+                        dismiss()
+                    }
+                })
+                addView(Button(context).apply {
+                    text = context.getString(R.string.overlay_cancel)
+                    setOnClickListener { dismiss() }
+                })
             })
         }
         container.addView(
-            buttons,
+            header,
             FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 Gravity.TOP or Gravity.CENTER_HORIZONTAL,
-            ),
+            ).apply { topMargin = 48 },
         )
 
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             PixelFormat.TRANSLUCENT,
-        )
+        ).apply {
+            layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
+            fitInsetsTypes = 0
+        }
         windowManager.addView(container, params)
+        // Immersive while mapping: markers often sit in the gesture areas, so
+        // hide the bars and require a swipe to bring them back transiently.
+        container.post {
+            container.windowInsetsController?.apply {
+                systemBarsBehavior =
+                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                hide(WindowInsets.Type.systemBars())
+            }
+        }
         root = container
+    }
+
+    private fun targetLabel(): String {
+        val pkg = targetPackage
+            ?: return context.getString(R.string.overlay_target_global)
+        val label = try {
+            val pm = context.packageManager
+            pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString()
+        } catch (e: PackageManager.NameNotFoundException) {
+            pkg
+        }
+        return context.getString(R.string.overlay_target_app, label)
     }
 
     fun dismiss() {

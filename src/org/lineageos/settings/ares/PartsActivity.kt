@@ -6,21 +6,30 @@
 package org.lineageos.settings.ares
 
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity
 
 class PartsActivity :
-    FragmentActivity(),
+    CollapsingToolbarBaseActivity(),
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTitle(R.string.settings_tile_title)
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(android.R.id.content, MainSettingsFragment())
+                .replace(
+                    com.android.settingslib.collapsingtoolbar.R.id.content_frame,
+                    MainSettingsFragment(),
+                )
                 .commit()
+        }
+        supportFragmentManager.addOnBackStackChangedListener {
+            if (supportFragmentManager.backStackEntryCount == 0) {
+                setTitle(R.string.settings_tile_title)
+            }
         }
     }
 
@@ -35,9 +44,10 @@ class PartsActivity :
         fragment.arguments = pref.extras
         supportFragmentManager
             .beginTransaction()
-            .replace(android.R.id.content, fragment)
+            .replace(com.android.settingslib.collapsingtoolbar.R.id.content_frame, fragment)
             .addToBackStack(null)
             .commit()
+        title = pref.title
         return true
     }
 }
