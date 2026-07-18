@@ -11,11 +11,10 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PixelFormat
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.FrameLayout
@@ -86,6 +85,11 @@ class MappingOverlay(
             ).apply { topMargin = 48 },
         )
 
+        // The overlay must not disturb system bars or insets: hiding them
+        // shifts the underlying app's layout, so markers placed against the
+        // shifted layout land off-target during real play. The window merely
+        // spans the whole display (bars, cutout and all) so view coordinates
+        // equal the display coordinates the injector uses.
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -99,15 +103,6 @@ class MappingOverlay(
             fitInsetsTypes = 0
         }
         windowManager.addView(container, params)
-        // Immersive while mapping: markers often sit in the gesture areas, so
-        // hide the bars and require a swipe to bring them back transiently.
-        container.post {
-            container.windowInsetsController?.apply {
-                systemBarsBehavior =
-                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-                hide(WindowInsets.Type.systemBars())
-            }
-        }
         root = container
     }
 
@@ -151,6 +146,17 @@ class MappingOverlay(
         override fun onDraw(canvas: Canvas) {
             drawMarker(canvas, coords.leftX, coords.leftY, "L")
             drawMarker(canvas, coords.rightX, coords.rightY, "R")
+            // Keep edge gestures (back swipe) from firing while a marker is
+            // dragged near a screen edge; the bars themselves stay visible so
+            // the app layout matches what the markers will target in play.
+            fun exclusion(x: Float, y: Float): Rect {
+                val r = (radius * 2).toInt()
+                return Rect(x.toInt() - r, y.toInt() - r, x.toInt() + r, y.toInt() + r)
+            }
+            systemGestureExclusionRects = listOf(
+                exclusion(coords.leftX, coords.leftY),
+                exclusion(coords.rightX, coords.rightY),
+            )
         }
 
         private fun drawMarker(canvas: Canvas, x: Float, y: Float, label: String) {

@@ -16,9 +16,13 @@ import android.view.MotionEvent
  * Injects synthetic touchscreen pointers for the two triggers via
  * InputManager#injectInputEvent (INJECT_EVENTS, platform signature).
  *
- * Left trigger = pointer id 0, right = pointer id 1; both may be down at
- * once, so single-pointer DOWN/UP and POINTER_DOWN/POINTER_UP transitions
- * are built explicitly.
+ * Both triggers may be down at once, so single-pointer DOWN/UP and
+ * POINTER_DOWN/POINTER_UP transitions are built explicitly.
+ *
+ * Pointer ids sit near the top of the dispatcher's 0..31 range: real
+ * touchscreen fingers count up from 0, and frameworks that key pointer
+ * state on the raw id without the device (Flutter, some game engines)
+ * wedge a trigger when a real finger reuses its id mid-stream.
  */
 class TouchInjector(context: Context) {
 
@@ -30,8 +34,8 @@ class TouchInjector(context: Context) {
         var y = 0f
     }
 
-    private val left = Pointer(0)
-    private val right = Pointer(1)
+    private val left = Pointer(29)
+    private val right = Pointer(30)
     private var downTime = 0L
     private val lock = Any()
 
@@ -101,7 +105,9 @@ class TouchInjector(context: Context) {
         )
         try {
             // 0 = INJECT_INPUT_EVENT_MODE_ASYNC: lowest latency, no wait
-            inputManager.injectInputEvent(event, 0)
+            val ok = inputManager.injectInputEvent(event, 0)
+            Log.d(TAG, "inject ${MotionEvent.actionToString(action)} ${pointers.size}p ok=$ok")
+            if (!ok) Log.w(TAG, "dispatcher rejected $event")
         } catch (e: Exception) {
             Log.e(TAG, "inject failed: ${e.message}")
         } finally {

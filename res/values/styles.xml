@@ -4,9 +4,9 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-    <!-- Settings' own sub-screen theme (SettingsLib) + androidx preference
-         support. M2 refines widget styling to full Settings fidelity. -->
-    <style name="Theme.AresParts" parent="@style/Theme.SubSettingsBase">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-    </style>
+    <!-- Same theme stock Settings sub-pages (and FlipFlap) use on this tree.
+         It already wires preferenceTheme to PreferenceTheme.SettingsLib.Expressive;
+         overriding preferenceTheme here would break Settings fidelity
+         (wrong layouts and pressed-state highlight). -->
+    <style name="Theme.AresParts" parent="@style/Theme.SubSettingsBase.Expressive" />
 </resources>

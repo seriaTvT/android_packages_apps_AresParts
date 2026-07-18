@@ -135,7 +135,10 @@ class TriggerController(private val context: Context) {
         val sliderOpen = if (isLeft) leftOpen else rightOpen
         if (!sliderOpen) return
         if (overlay != null) return // overlay owns the screen while mapping
-        val coords = repo.coordsFor(foregroundPackage())
+        val fg = foregroundPackage()
+        val coords = repo.coordsFor(fg)
+        Log.d(TAG, "press ${if (isLeft) "L" else "R"} in $fg -> " +
+            if (isLeft) "(${coords.leftX}, ${coords.leftY})" else "(${coords.rightX}, ${coords.rightY})")
         if (isLeft) {
             injector.press(true, coords.leftX, coords.leftY)
         } else {
