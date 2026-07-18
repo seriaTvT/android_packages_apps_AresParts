@@ -11,33 +11,53 @@ import android.content.Intent
 import android.os.IBinder
 import android.os.UserHandle
 import android.util.Log
+import org.lineageos.settings.ares.triggers.TriggerController
 
 /**
- * Owns the device state machines: gamekey trigger reader (M1) and LED
- * effect/handoff logic (M3). M0 ships the empty shell so boot wiring,
- * process/domain placement and service lifetime can be validated early.
+ * Owns the device state machines: the gamekey trigger pipeline (M1) and
+ * the LED effect/handoff logic (M3).
  */
 class PartsService : Service() {
+
+    private lateinit var triggers: TriggerController
+
     override fun onCreate() {
         super.onCreate()
         Log.i(TAG, "PartsService created")
+        triggers = TriggerController(this)
+        triggers.start()
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int = START_STICKY
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent?.action == ACTION_SHOW_MAPPING_OVERLAY) {
+            triggers.showOverlay()
+        }
+        return START_STICKY
+    }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onDestroy() {
         Log.i(TAG, "PartsService destroyed")
+        triggers.stop()
         super.onDestroy()
     }
 
     companion object {
         private const val TAG = "AresParts.Service"
+        const val ACTION_SHOW_MAPPING_OVERLAY = "org.lineageos.settings.ares.SHOW_MAPPING_OVERLAY"
 
         fun start(context: Context) {
             context.startServiceAsUser(
                 Intent(context, PartsService::class.java),
+                UserHandle.CURRENT,
+            )
+        }
+
+        fun showMappingOverlay(context: Context) {
+            context.startServiceAsUser(
+                Intent(context, PartsService::class.java)
+                    .setAction(ACTION_SHOW_MAPPING_OVERLAY),
                 UserHandle.CURRENT,
             )
         }

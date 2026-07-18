@@ -10,8 +10,23 @@
 
     <!-- Category: triggers -->
     <string name="category_triggers_title">Shoulder triggers</string>
-    <string name="triggers_placeholder_title">Trigger mapping</string>
-    <string name="triggers_placeholder_summary">Coming in M1 — slider detection and per-game touch mapping</string>
+    <string name="triggers_entry_summary">Slider sounds, per-game touch mapping</string>
+    <string name="triggers_enabled_title">Use shoulder triggers</string>
+    <string name="triggers_enabled_summary">Detect the pop-up triggers and map presses to screen touches</string>
+    <string name="trigger_sound_style_title">Slider sound</string>
+    <string name="sound_style_none">Silent</string>
+    <string name="sound_style_classic">Classic</string>
+    <string name="sound_style_mechanical">Mechanical</string>
+    <string name="sound_style_car">Car door</string>
+    <string name="sound_style_scifi">Sci-fi</string>
+    <string name="trigger_game_apps_title">Game apps</string>
+    <string name="trigger_game_apps_summary">Apps where trigger mapping and the placement overlay are active</string>
+    <string name="trigger_place_markers_title">Place touch points</string>
+    <string name="trigger_place_markers_summary">Drag the L/R markers where trigger presses should touch. Opening both triggers inside a game also shows this.</string>
+
+    <!-- Mapping overlay -->
+    <string name="overlay_save">Save</string>
+    <string name="overlay_cancel">Cancel</string>
 
     <!-- Category: lighting -->
     <string name="category_lighting_title">RGB light strip</string>

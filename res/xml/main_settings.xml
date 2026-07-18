@@ -3,16 +3,17 @@
      SPDX-FileCopyrightText: 2026 The LineageOS Project
      SPDX-License-Identifier: Apache-2.0
 -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:key="category_triggers"
         android:title="@string/category_triggers_title">
         <Preference
-            android:key="triggers_placeholder"
-            android:title="@string/triggers_placeholder_title"
-            android:summary="@string/triggers_placeholder_summary"
-            android:enabled="false" />
+            android:key="triggers_entry"
+            android:title="@string/triggers_enabled_title"
+            android:summary="@string/triggers_entry_summary"
+            app:fragment="org.lineageos.settings.ares.ui.TriggersSettingsFragment" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -11,11 +11,7 @@ Clean rewrite following the LineageOS device-parts conventions
 
 ## Lineage
 
-The hardware protocol layer (the `/dev/gamekey` 4-byte reader and the
-multi-touch injector) is ported from
-[AYIKxD/Parts-ares](https://github.com/AYIKxD/Parts-ares) (Apache-2.0);
-ported files keep their original SPDX attribution. The UI and the
-LED/vibration layers are new.
+Development referenced [AYIKxD/Parts-ares](https://github.com/AYIKxD/Parts-ares).
 
 Design/plan: `PARTS-REWRITE-PLAN.md` in the seriaTvT LOS-dev notes.
 
