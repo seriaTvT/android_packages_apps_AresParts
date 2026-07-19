@@ -13,6 +13,10 @@ import org.lineageos.settings.ares.R
 /**
  * Slider open/close sound cues. Four styles, each with distinct
  * left/right open/close samples (stock-style ogg assets).
+ *
+ * USAGE_NOTIFICATION so the cues scale with the notification volume
+ * and honor silent/vibrate; ASSISTANCE_SONIFICATION would route to
+ * the fixed-volume system stream.
  */
 class SoundCues(context: Context) {
 
@@ -20,7 +24,7 @@ class SoundCues(context: Context) {
         .setMaxStreams(2)
         .setAudioAttributes(
             AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
         )
