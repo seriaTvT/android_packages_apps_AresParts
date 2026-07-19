@@ -34,7 +34,7 @@
             android:title="@string/vibration_strength_title"
             android:summary="@string/vibration_strength_summary"
             android:max="100"
-            android:defaultValue="55"
+            android:defaultValue="100"
             app:min="10"
             app:showSeekBarValue="true"
             app:updatesContinuously="false" />

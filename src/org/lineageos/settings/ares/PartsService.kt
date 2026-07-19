@@ -46,7 +46,7 @@ class PartsService : Service() {
         if (!prefs.contains(MainSettingsFragment.KEY_VIBRATION_STRENGTH)) return
         val haptics = HapticStrength(this)
         if (!haptics.available) return
-        haptics.apply(prefs.getInt(MainSettingsFragment.KEY_VIBRATION_STRENGTH, 55))
+        haptics.apply(prefs.getInt(MainSettingsFragment.KEY_VIBRATION_STRENGTH, 100))
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

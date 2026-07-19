@@ -12,9 +12,8 @@
     <string name="config_led_green_dir" translatable="false">/sys/class/leds/green</string>
     <string name="config_led_blue_dir" translatable="false">/sys/class/leds/blue</string>
 
-    <!-- awinic haptic sysfs attrs. vmax is written (strength override);
-         bst_vol is only stat'd: it exists on aw86927 units but not
-         aw8697, which decides the valid vmax code range. -->
-    <string name="config_haptic_vmax_path" translatable="false">/sys/devices/platform/11d03000.i2c7/i2c-7/7-005a/vmax</string>
-    <string name="config_haptic_bst_vol_path" translatable="false">/sys/devices/platform/11d03000.i2c7/i2c-7/7-005a/bst_vol</string>
+    <!-- awinic haptic gain_scale attr (our kernel addition): percent
+         drive-gain scale for all effects, 100 = stock. Boost voltage
+         (vmax) does not modulate perceived strength on this motor. -->
+    <string name="config_haptic_gain_scale_path" translatable="false">/sys/devices/platform/11d03000.i2c7/i2c-7/7-005a/gain_scale</string>
 </resources>
