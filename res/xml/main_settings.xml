@@ -29,11 +29,15 @@
     <PreferenceCategory
         android:key="category_vibration"
         android:title="@string/category_vibration_title">
-        <Preference
-            android:key="vibration_placeholder"
-            android:title="@string/vibration_placeholder_title"
-            android:summary="@string/vibration_placeholder_summary"
-            android:enabled="false" />
+        <SeekBarPreference
+            android:key="vibration_strength"
+            android:title="@string/vibration_strength_title"
+            android:summary="@string/vibration_strength_summary"
+            android:max="100"
+            android:defaultValue="55"
+            app:min="10"
+            app:showSeekBarValue="true"
+            app:updatesContinuously="false" />
     </PreferenceCategory>
 
 </PreferenceScreen>

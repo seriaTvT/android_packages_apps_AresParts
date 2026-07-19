@@ -60,6 +60,6 @@
 
     <!-- Category: vibration -->
     <string name="category_vibration_title">Vibration</string>
-    <string name="vibration_placeholder_title">Vibration strength</string>
-    <string name="vibration_placeholder_summary">Coming in M4</string>
+    <string name="vibration_strength_title">Vibration strength</string>
+    <string name="vibration_strength_summary">Motor drive strength for all vibrations and haptics</string>
 </resources>

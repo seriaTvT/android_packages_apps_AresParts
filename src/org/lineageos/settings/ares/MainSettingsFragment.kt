@@ -6,7 +6,10 @@
 package org.lineageos.settings.ares
 
 import android.os.Bundle
+import androidx.preference.PreferenceCategory
+import androidx.preference.SeekBarPreference
 import com.android.settingslib.widget.SettingsBasePreferenceFragment
+import org.lineageos.settings.ares.hw.HapticStrength
 
 // SettingsBasePreferenceFragment (not plain PreferenceFragmentCompat) is what
 // installs SettingsPreferenceGroupAdapter on Expressive builds: it sets the
@@ -16,5 +19,21 @@ import com.android.settingslib.widget.SettingsBasePreferenceFragment
 class MainSettingsFragment : SettingsBasePreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.main_settings, rootKey)
+
+        val haptics = HapticStrength(requireContext())
+        if (haptics.available) {
+            findPreference<SeekBarPreference>(KEY_VIBRATION_STRENGTH)
+                ?.setOnPreferenceChangeListener { _, newValue ->
+                    haptics.apply(newValue as Int)
+                    true
+                }
+        } else {
+            findPreference<PreferenceCategory>(KEY_CATEGORY_VIBRATION)?.isVisible = false
+        }
+    }
+
+    companion object {
+        const val KEY_VIBRATION_STRENGTH = "vibration_strength"
+        private const val KEY_CATEGORY_VIBRATION = "category_vibration"
     }
 }

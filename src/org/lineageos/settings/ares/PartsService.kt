@@ -11,12 +11,15 @@ import android.content.Intent
 import android.os.IBinder
 import android.os.UserHandle
 import android.util.Log
+import androidx.preference.PreferenceManager
+import org.lineageos.settings.ares.hw.HapticStrength
 import org.lineageos.settings.ares.led.LedController
 import org.lineageos.settings.ares.triggers.TriggerController
 
 /**
- * Owns the device state machines: the gamekey trigger pipeline (M1) and
- * the LED effect/handoff logic (M3).
+ * Owns the device state machines: the gamekey trigger pipeline (M1),
+ * the LED effect/handoff logic (M3) and the boot-time vibration
+ * strength restore (M4).
  */
 class PartsService : Service() {
 
@@ -30,6 +33,20 @@ class PartsService : Service() {
         triggers.start()
         leds = LedController(this)
         leds.start()
+        restoreVibrationStrength()
+    }
+
+    /**
+     * The vmax override does not survive a reboot; re-apply the saved
+     * strength once at startup. Untouched slider = no write, so the
+     * hardware default stays in effect until the user opts in.
+     */
+    private fun restoreVibrationStrength() {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        if (!prefs.contains(MainSettingsFragment.KEY_VIBRATION_STRENGTH)) return
+        val haptics = HapticStrength(this)
+        if (!haptics.available) return
+        haptics.apply(prefs.getInt(MainSettingsFragment.KEY_VIBRATION_STRENGTH, 55))
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
