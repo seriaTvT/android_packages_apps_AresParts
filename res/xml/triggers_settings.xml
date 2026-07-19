@@ -4,6 +4,7 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/category_triggers_title">
 
     <SwitchPreferenceCompat
@@ -32,5 +33,43 @@
         android:title="@string/trigger_place_markers_title"
         android:summary="@string/trigger_place_markers_summary"
         android:dependency="triggers_enabled" />
+
+    <PreferenceCategory
+        android:key="category_trigger_actions"
+        android:title="@string/trigger_actions_category_title">
+
+        <ListPreference
+            android:key="trigger_action_left"
+            android:title="@string/trigger_action_left_title"
+            android:entries="@array/trigger_action_entries"
+            android:entryValues="@array/trigger_action_values"
+            android:defaultValue="none"
+            android:summary="%s"
+            android:dependency="triggers_enabled" />
+
+        <ListPreference
+            android:key="trigger_action_left_app"
+            android:title="@string/trigger_action_app_title"
+            android:summary="%s"
+            android:dependency="triggers_enabled"
+            app:isPreferenceVisible="false" />
+
+        <ListPreference
+            android:key="trigger_action_right"
+            android:title="@string/trigger_action_right_title"
+            android:entries="@array/trigger_action_entries"
+            android:entryValues="@array/trigger_action_values"
+            android:defaultValue="none"
+            android:summary="%s"
+            android:dependency="triggers_enabled" />
+
+        <ListPreference
+            android:key="trigger_action_right_app"
+            android:title="@string/trigger_action_app_title"
+            android:summary="%s"
+            android:dependency="triggers_enabled"
+            app:isPreferenceVisible="false" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

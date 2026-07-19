@@ -18,4 +18,27 @@
         <item>car</item>
         <item>scifi</item>
     </string-array>
+
+    <string-array name="trigger_action_entries">
+        <item>@string/trigger_action_none</item>
+        <item>@string/trigger_action_torch</item>
+        <item>@string/trigger_action_camera</item>
+        <item>@string/trigger_action_media_play_pause</item>
+        <item>@string/trigger_action_media_next</item>
+        <item>@string/trigger_action_media_previous</item>
+        <item>@string/trigger_action_ringer</item>
+        <item>@string/trigger_action_wake</item>
+        <item>@string/trigger_action_app</item>
+    </string-array>
+    <string-array name="trigger_action_values" translatable="false">
+        <item>none</item>
+        <item>torch</item>
+        <item>camera</item>
+        <item>media_play_pause</item>
+        <item>media_next</item>
+        <item>media_previous</item>
+        <item>ringer</item>
+        <item>wake</item>
+        <item>app</item>
+    </string-array>
 </resources>

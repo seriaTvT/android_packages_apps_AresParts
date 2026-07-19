@@ -20,6 +20,8 @@ import org.lineageos.settings.ares.util.ForegroundApp
  *  - plays slider open/close sound cues,
  *  - injects touchscreen pointers for trigger presses at the configured
  *    (per-app or global) coordinates,
+ *  - runs the configured custom action instead when the press happens
+ *    outside a game-list app,
  *  - auto-shows the mapping overlay when both sliders open within a
  *    6-second window while a listed game app is in the foreground.
  */
@@ -27,6 +29,7 @@ class TriggerController(private val context: Context) {
 
     private val repo = TriggerRepository(context)
     private val injector = TouchInjector(context)
+    private val actions = TriggerActions(context)
     private val sounds = SoundCues(context)
     private val handler = Handler(Looper.getMainLooper())
     private val activityManager = context.getSystemService(ActivityManager::class.java)
@@ -48,6 +51,7 @@ class TriggerController(private val context: Context) {
     fun stop() {
         reader.stop()
         injector.releaseAll()
+        actions.release()
         sounds.release()
         hideOverlay()
     }
@@ -137,6 +141,15 @@ class TriggerController(private val context: Context) {
         if (!sliderOpen) return
         if (overlay != null) return // overlay owns the screen while mapping
         val fg = foregroundPackage()
+        // Outside game-list apps a press runs the configured action instead
+        // of injecting a touch; "none" keeps the inject-everywhere behavior.
+        if (!repo.isGameApp(fg)) {
+            val action = repo.actionFor(isLeft)
+            if (action != TriggerActions.ACTION_NONE) {
+                actions.run(action, repo.actionAppFor(isLeft))
+                return
+            }
+        }
         val coords = repo.coordsFor(fg)
         Log.d(TAG, "press ${if (isLeft) "L" else "R"} in $fg -> " +
             if (isLeft) "(${coords.leftX}, ${coords.leftY})" else "(${coords.rightX}, ${coords.rightY})")

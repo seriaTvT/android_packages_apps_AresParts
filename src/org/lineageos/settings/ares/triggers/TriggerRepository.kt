@@ -31,6 +31,15 @@ class TriggerRepository(context: Context) {
 
     fun isGameApp(packageName: String?) = packageName != null && packageName in gameApps
 
+    /** Action fired on a trigger press outside game-list apps. */
+    fun actionFor(isLeft: Boolean): String =
+        prefs.getString(if (isLeft) KEY_ACTION_LEFT else KEY_ACTION_RIGHT, ACTION_DEFAULT)
+            ?: ACTION_DEFAULT
+
+    /** Package to launch when the action is "app". */
+    fun actionAppFor(isLeft: Boolean): String? =
+        prefs.getString(if (isLeft) KEY_ACTION_LEFT_APP else KEY_ACTION_RIGHT_APP, null)
+
     fun coordsFor(packageName: String?): Coords {
         val suffix = packageName?.let { ":$it" } ?: ""
         fun value(base: String, fallback: Float): Float {
@@ -61,6 +70,12 @@ class TriggerRepository(context: Context) {
         const val KEY_ENABLED = "triggers_enabled"
         const val KEY_SOUND_STYLE = "trigger_sound_style"
         const val KEY_GAME_APPS = "trigger_game_apps"
+        const val KEY_ACTION_LEFT = "trigger_action_left"
+        const val KEY_ACTION_RIGHT = "trigger_action_right"
+        const val KEY_ACTION_LEFT_APP = "trigger_action_left_app"
+        const val KEY_ACTION_RIGHT_APP = "trigger_action_right_app"
+        const val ACTION_DEFAULT = TriggerActions.ACTION_NONE
+
         const val KEY_LEFT_X = "trigger_left_x"
         const val KEY_LEFT_Y = "trigger_left_y"
         const val KEY_RIGHT_X = "trigger_right_x"

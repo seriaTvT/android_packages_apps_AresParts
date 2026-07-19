@@ -62,4 +62,19 @@
     <string name="category_vibration_title">Vibration</string>
     <string name="vibration_strength_title">Vibration strength</string>
     <string name="vibration_strength_summary">Motor drive strength for all vibrations and haptics</string>
+
+    <!-- Trigger custom actions -->
+    <string name="trigger_actions_category_title">Actions outside games</string>
+    <string name="trigger_action_left_title">Left trigger press</string>
+    <string name="trigger_action_right_title">Right trigger press</string>
+    <string name="trigger_action_app_title">App to launch</string>
+    <string name="trigger_action_none">Tap mapped point</string>
+    <string name="trigger_action_torch">Toggle flashlight</string>
+    <string name="trigger_action_camera">Open camera</string>
+    <string name="trigger_action_media_play_pause">Play / pause</string>
+    <string name="trigger_action_media_next">Next track</string>
+    <string name="trigger_action_media_previous">Previous track</string>
+    <string name="trigger_action_ringer">Cycle ring / vibrate / silent</string>
+    <string name="trigger_action_wake">Wake the screen</string>
+    <string name="trigger_action_app">Launch an app</string>
 </resources>
