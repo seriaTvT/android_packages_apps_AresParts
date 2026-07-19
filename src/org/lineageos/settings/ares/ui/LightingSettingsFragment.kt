@@ -8,12 +8,12 @@ package org.lineageos.settings.ares.ui
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.ListPreference
-import androidx.preference.PreferenceFragmentCompat
+import com.android.settingslib.widget.SettingsBasePreferenceFragment
 import org.lineageos.settings.ares.R
 import org.lineageos.settings.ares.led.LedRepository
 
 class LightingSettingsFragment :
-    PreferenceFragmentCompat(),
+    SettingsBasePreferenceFragment(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

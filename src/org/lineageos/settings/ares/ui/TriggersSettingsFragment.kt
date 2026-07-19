@@ -10,12 +10,12 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
+import com.android.settingslib.widget.SettingsBasePreferenceFragment
 import org.lineageos.settings.ares.PartsService
 import org.lineageos.settings.ares.R
 import org.lineageos.settings.ares.triggers.TriggerRepository
 
-class TriggersSettingsFragment : PreferenceFragmentCompat() {
+class TriggersSettingsFragment : SettingsBasePreferenceFragment() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.triggers_settings, rootKey)
