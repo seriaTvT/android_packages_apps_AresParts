@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string name="settings_tile_title">遊戲肩鍵與燈效</string>
+    <string name="settings_tile_summary">彈出肩鍵、RGB 燈條與震動</string>
+
+    <!-- Category: triggers -->
+    <string name="category_triggers_title">彈出肩鍵</string>
+    <string name="triggers_entry_summary">滑蓋音效、每個遊戲的觸控映射</string>
+    <string name="triggers_enabled_title">使用彈出肩鍵</string>
+    <string name="triggers_enabled_summary">偵測彈出肩鍵，並將按壓映射為螢幕觸控</string>
+    <string name="trigger_sound_style_title">滑蓋音效</string>
+    <string name="sound_style_none">靜音</string>
+    <string name="sound_style_classic">經典</string>
+    <string name="sound_style_mechanical">機械</string>
+    <string name="sound_style_car">車門</string>
+    <string name="sound_style_scifi">科幻</string>
+    <string name="trigger_game_apps_title">遊戲應用程式</string>
+    <string name="trigger_game_apps_summary">啟用肩鍵映射與定位浮層的應用程式</string>
+    <string name="trigger_place_markers_title">設定觸控點</string>
+    <string name="trigger_place_markers_summary">設定所有遊戲共用的預設左/右觸控點。若要為某個遊戲單獨設定，請在該遊戲中同時彈出兩個肩鍵——在浮層中儲存的位置僅套用於該遊戲，並會覆蓋預設值。</string>
+
+    <!-- Mapping overlay -->
+    <string name="overlay_save">儲存</string>
+    <string name="overlay_cancel">取消</string>
+    <string name="overlay_target_app">%1$s 的觸控點</string>
+    <string name="overlay_target_global">預設觸控點（所有遊戲）</string>
+
+    <!-- Category: lighting -->
+    <string name="category_lighting_title">RGB 燈條</string>
+    <string name="lighting_entry_title">燈光效果</string>
+    <string name="lighting_entry_summary">背面燈條的效果、顏色與亮度</string>
+    <string name="led_effect_title">效果</string>
+    <string name="led_effect_none">關閉</string>
+    <string name="led_effect_static">單色</string>
+    <string name="led_effect_breathing">呼吸</string>
+    <string name="led_effect_rainbow">彩虹</string>
+    <string name="led_effect_disco">迪斯可</string>
+    <string name="led_color_title">顏色</string>
+    <string name="led_color_white">白色</string>
+    <string name="led_color_red">紅色</string>
+    <string name="led_color_orange">橙色</string>
+    <string name="led_color_yellow">黃色</string>
+    <string name="led_color_green">綠色</string>
+    <string name="led_color_cyan">青色</string>
+    <string name="led_color_blue">藍色</string>
+    <string name="led_color_purple">紫色</string>
+    <string name="led_color_pink">粉紅色</string>
+    <string name="led_brightness_title">亮度</string>
+    <string name="led_only_in_games_title">僅在遊戲中</string>
+    <string name="led_only_in_games_summary">僅當肩鍵遊戲清單中的應用程式位於前景時才執行燈效</string>
+    <string name="led_on_call_title">通話時閃爍</string>
+    <string name="led_on_call_summary">響鈴與通話期間顯示迪斯可燈效，即使螢幕關閉也會運作</string>
+    <string name="led_charging_note">燈效啟用期間會佔用燈條；關閉燈效後充電指示燈會恢復。</string>
+    <string name="led_tile_label">燈光效果</string>
+
+    <!-- Category: vibration -->
+    <string name="category_vibration_title">震動</string>
+    <string name="vibration_strength_title">震動強度</string>
+    <string name="vibration_strength_summary">所有震動與觸覺回饋的馬達驅動強度</string>
+
+    <!-- Trigger custom actions -->
+    <string name="trigger_actions_category_title">遊戲外的動作</string>
+    <string name="trigger_action_left_title">按下左肩鍵</string>
+    <string name="trigger_action_right_title">按下右肩鍵</string>
+    <string name="trigger_action_app_title">要啟動的應用程式</string>
+    <string name="trigger_action_none">點按映射位置</string>
+    <string name="trigger_action_torch">開關手電筒</string>
+    <string name="trigger_action_camera">開啟相機</string>
+    <string name="trigger_action_media_play_pause">播放 / 暫停</string>
+    <string name="trigger_action_media_next">下一首</string>
+    <string name="trigger_action_media_previous">上一首</string>
+    <string name="trigger_action_ringer">循環切換響鈴 / 震動 / 靜音</string>
+    <string name="trigger_action_wake">喚醒螢幕</string>
+    <string name="trigger_action_app">啟動應用程式</string>
+</resources>
