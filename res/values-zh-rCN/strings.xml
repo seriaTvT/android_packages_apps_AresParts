@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string name="settings_tile_title">肩键与灯效</string>
+    <string name="settings_tile_summary">弹出肩键、RGB 灯光与振动</string>
+
+    <!-- Category: triggers -->
+    <string name="category_triggers_title">弹出肩键</string>
+    <string name="triggers_entry_summary">音效、每个游戏的触控映射</string>
+    <string name="triggers_enabled_title">使用弹出肩键</string>
+    <string name="triggers_enabled_summary">侦测弹出肩键，并将按键映射为屏幕触控</string>
+    <string name="trigger_sound_style_title">肩键滑盖音效</string>
+    <string name="sound_style_none">静音</string>
+    <string name="sound_style_classic">经典</string>
+    <string name="sound_style_mechanical">机械</string>
+    <string name="sound_style_car">车门</string>
+    <string name="sound_style_scifi">赛博朋克</string>
+    <string name="trigger_game_apps_title">游戏应用</string>
+    <string name="trigger_game_apps_summary">开启肩键映射与定位叠加层的应用</string>
+    <string name="trigger_place_markers_title">设定触控位置</string>
+    <string name="trigger_place_markers_summary">设定默认左/右触控映射。若需要为应用单独设定，请在应用中同时弹出两个肩键。叠加层的新设置将为该应用保存，并覆盖预设。</string>
+
+    <!-- Mapping overlay -->
+    <string name="overlay_save">保存</string>
+    <string name="overlay_cancel">取消</string>
+    <string name="overlay_target_app">%1$s 的映射点</string>
+    <string name="overlay_target_global">预设映射（所有应用）</string>
+
+    <!-- Category: lighting -->
+    <string name="category_lighting_title">RGB 灯光</string>
+    <string name="lighting_entry_title">灯光效果</string>
+    <string name="lighting_entry_summary">后摄模组灯光的效果、颜色和亮度</string>
+    <string name="led_effect_title">效果</string>
+    <string name="led_effect_none">关闭</string>
+    <string name="led_effect_static">单色</string>
+    <string name="led_effect_breathing">呼吸</string>
+    <string name="led_effect_rainbow">彩虹</string>
+    <string name="led_effect_disco">Disco</string>
+    <string name="led_color_title">颜色</string>
+    <string name="led_color_white">白色</string>
+    <string name="led_color_red">红色</string>
+    <string name="led_color_orange">橙色</string>
+    <string name="led_color_yellow">黄色</string>
+    <string name="led_color_green">绿色</string>
+    <string name="led_color_cyan">青色</string>
+    <string name="led_color_blue">蓝色</string>
+    <string name="led_color_purple">紫色</string>
+    <string name="led_color_pink">粉色</string>
+    <string name="led_brightness_title">亮度</string>
+    <string name="led_only_in_games_title">仅在游戏中</string>
+    <string name="led_only_in_games_summary">仅在肩键游戏清单中的应用中开启灯效</string>
+    <string name="led_on_call_title">通话时闪烁</string>
+    <string name="led_on_call_summary">响铃与通话时显示 Disco 灯效，屏幕关闭时也生效</string>
+    <string name="led_charging_note">灯效启用期间会占用灯圈；关闭灯效后充电指示灯恢复。</string>
+    <string name="led_tile_label">灯光效果</string>
+
+    <!-- Category: vibration -->
+    <string name="category_vibration_title">振动</string>
+    <string name="vibration_strength_title">振动强度</string>
+    <string name="vibration_strength_summary">所有振动和触觉反馈的马达驱动强度</string>
+
+    <!-- Trigger custom actions -->
+    <string name="trigger_actions_category_title">游戏外的动作</string>
+    <string name="trigger_action_left_title">按下左肩键</string>
+    <string name="trigger_action_right_title">按下右肩键</string>
+    <string name="trigger_action_app_title">要启动的应用</string>
+    <string name="trigger_action_none">点击映射位置</string>
+    <string name="trigger_action_torch">关闭手电筒</string>
+    <string name="trigger_action_camera">打开相机</string>
+    <string name="trigger_action_media_play_pause">播放 / 暂停</string>
+    <string name="trigger_action_media_next">下一首</string>
+    <string name="trigger_action_media_previous">上一首</string>
+    <string name="trigger_action_ringer">循环切换响铃 / 振动 / 静音</string>
+    <string name="trigger_action_wake">唤醒屏幕</string>
+    <string name="trigger_action_app">启动应用</string>
+</resources>
