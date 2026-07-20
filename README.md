@@ -9,12 +9,6 @@ Clean rewrite following the LineageOS device-parts conventions
 `org.lineageos.settings.ares`, platform-signed system_ext priv-app in the
 `system_app` SELinux domain).
 
-## Lineage
-
-Development referenced [AYIKxD/Parts-ares](https://github.com/AYIKxD/Parts-ares).
-
-Design/plan: `PARTS-REWRITE-PLAN.md` in the seriaTvT LOS-dev notes.
-
 ## Hardware facts (ares, lineage-23.2 kernel)
 
 - `/dev/gamekey`: char 10,110; reads must be exactly 4 bytes:
@@ -32,3 +26,5 @@ Design/plan: `PARTS-REWRITE-PLAN.md` in the seriaTvT LOS-dev notes.
 
 `m AresParts` — selected in `device/xiaomi/ares/device.mk` via the
 `ARES_PARTS_APP` switch during the migration off the legacy XiaomiParts.
+
+Development referenced [AYIKxD/Parts-ares](https://github.com/AYIKxD/Parts-ares).
