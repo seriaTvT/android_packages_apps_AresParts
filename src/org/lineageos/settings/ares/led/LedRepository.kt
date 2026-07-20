@@ -44,6 +44,10 @@ class LedRepository(context: Context) {
     val flashOnCall: Boolean
         get() = prefs.getBoolean(KEY_ON_CALL, false)
 
+    /** While plugged in, hand the strips to the system battery light. */
+    val chargingLight: Boolean
+        get() = prefs.getBoolean(KEY_CHARGING_LIGHT, true)
+
     /** Shared with the trigger feature: one game list for the whole app. */
     val gameApps: Set<String>
         get() = prefs.getStringSet(TriggerRepository.KEY_GAME_APPS, emptySet()) ?: emptySet()
@@ -55,6 +59,7 @@ class LedRepository(context: Context) {
         const val KEY_BRIGHTNESS = "led_brightness"
         const val KEY_ONLY_IN_GAMES = "led_only_in_games"
         const val KEY_ON_CALL = "led_on_call"
+        const val KEY_CHARGING_LIGHT = "led_charging_light"
 
         const val EFFECT_NONE = "none"
         const val EFFECT_STATIC = "static"

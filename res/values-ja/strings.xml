@@ -54,7 +54,8 @@
     <string name="led_only_in_games_summary">トリガーのゲームリストにあるアプリがフォアグラウンドのときだけ効果を実行します</string>
     <string name="led_on_call_title">通話中に点滅</string>
     <string name="led_on_call_summary">着信中と通話中にディスコ効果を実行します（画面オフ時も動作）</string>
-    <string name="led_charging_note">効果が有効な間はライトストリップを占有します。効果をオフにすると充電ライトが再開されます。</string>
+    <string name="led_charging_light_title">充電インジケーター</string>
+    <string name="led_charging_light_summary">充電器の接続中はシステムのバッテリーライトがライト効果より優先されます</string>
     <string name="led_tile_label">ライト効果</string>
 
     <!-- Category: vibration -->

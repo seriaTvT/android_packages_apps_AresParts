@@ -18,6 +18,7 @@ android_app {
         "androidx.core_core-ktx",
         "androidx.preference_preference",
         "SettingsLib",
+        "org.lineageos.platform.internal",
         "org.lineageos.settings.resources",
     ],
 

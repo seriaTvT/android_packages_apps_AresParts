@@ -55,7 +55,8 @@
     <string name="led_only_in_games_summary">Run effects only while an app from the trigger game list is in the foreground</string>
     <string name="led_on_call_title">Flash during calls</string>
     <string name="led_on_call_summary">Disco effect while ringing and in a call, even with the screen off</string>
-    <string name="led_charging_note">While an effect is active it takes over the light strips; the charging light resumes when effects are off.</string>
+    <string name="led_charging_light_title">Charging indicator</string>
+    <string name="led_charging_light_summary">While the charger is connected the system battery light takes priority over light effects</string>
     <string name="led_tile_label">Light effects</string>
 
     <!-- Category: vibration -->

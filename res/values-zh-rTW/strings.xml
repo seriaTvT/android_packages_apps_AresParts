@@ -54,7 +54,8 @@
     <string name="led_only_in_games_summary">僅當肩鍵遊戲清單中的應用程式位於前景時才執行燈效</string>
     <string name="led_on_call_title">通話時閃爍</string>
     <string name="led_on_call_summary">響鈴與通話期間顯示迪斯可燈效，即使螢幕關閉也會運作</string>
-    <string name="led_charging_note">燈效啟用期間會佔用燈條；關閉燈效後充電指示燈會恢復。</string>
+    <string name="led_charging_light_title">充電指示燈</string>
+    <string name="led_charging_light_summary">連接充電器時，系統電池指示燈優先於燈光效果</string>
     <string name="led_tile_label">燈光效果</string>
 
     <!-- Category: vibration -->

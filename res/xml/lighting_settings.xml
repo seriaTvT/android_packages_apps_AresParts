@@ -43,10 +43,10 @@
         android:summary="@string/led_on_call_summary"
         android:defaultValue="false" />
 
-    <Preference
-        android:key="led_charging_note"
-        android:summary="@string/led_charging_note"
-        android:selectable="false"
-        android:persistent="false" />
+    <SwitchPreferenceCompat
+        android:key="led_charging_light"
+        android:title="@string/led_charging_light_title"
+        android:summary="@string/led_charging_light_summary"
+        android:defaultValue="true" />
 
 </PreferenceScreen>

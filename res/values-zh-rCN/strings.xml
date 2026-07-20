@@ -54,7 +54,8 @@
     <string name="led_only_in_games_summary">仅在肩键游戏清单中的应用中开启灯效</string>
     <string name="led_on_call_title">通话时闪烁</string>
     <string name="led_on_call_summary">响铃与通话时显示 Disco 灯效，屏幕关闭时也生效</string>
-    <string name="led_charging_note">灯效启用期间会占用灯圈；关闭灯效后充电指示灯恢复。</string>
+    <string name="led_charging_light_title">充电指示灯</string>
+    <string name="led_charging_light_summary">连接充电器时，系统电池指示灯优先于灯光效果</string>
     <string name="led_tile_label">灯光效果</string>
 
     <!-- Category: vibration -->
