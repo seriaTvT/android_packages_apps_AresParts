@@ -61,6 +61,11 @@ class LedRepository(context: Context) {
         const val KEY_ON_CALL = "led_on_call"
         const val KEY_CHARGING_LIGHT = "led_charging_light"
 
+        // Book-keeping for suppressing the system battery light while an
+        // effect runs over a charger (charging indicator off). Not user prefs.
+        const val KEY_SAVED_BATTERY_LIGHT = "led_saved_battery_light"
+        const val KEY_BATTERY_LIGHT_SUPPRESSED = "led_battery_light_suppressed"
+
         const val EFFECT_NONE = "none"
         const val EFFECT_STATIC = "static"
         const val EFFECT_BREATHING = "breathing"

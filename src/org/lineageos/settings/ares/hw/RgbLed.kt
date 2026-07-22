@@ -59,13 +59,9 @@ class RgbLed(context: Context) {
         }
     }
 
-    /**
-     * Restore saved triggers and, by default, turn the LEDs off. Pass
-     * turnOff = false when another writer (the lights HAL battery light)
-     * is taking over and a zero write would erase its output.
-     */
-    fun releaseOwnership(turnOff: Boolean = true) {
-        if (turnOff) off()
+    /** Restore saved triggers and turn the LEDs off. */
+    fun releaseOwnership() {
+        off()
         for (c in channels) {
             val saved = c.savedTrigger ?: continue
             if (saved != "none") writeText(c.trigger, saved)

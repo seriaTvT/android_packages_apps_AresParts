@@ -17,6 +17,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.telephony.TelephonyManager
 import android.util.Log
+import lineageos.providers.LineageSettings
 import org.lineageos.settings.ares.hw.RgbLed
 import org.lineageos.settings.ares.util.ForegroundApp
 import java.util.Random
@@ -24,30 +25,31 @@ import kotlin.math.PI
 import kotlin.math.sin
 
 /**
- * LED effect engine. Decides who owns the light strips and animates them:
+ * LED effect engine. Decides who owns the light strips and animates them.
  *
- *  - While no effect is active the app leaves the sysfs nodes alone, so
- *    the lights HAL charging/battery light works untouched.
- *  - When an effect activates, the kernel `trigger` of each channel is
- *    saved and forced to "none" (RgbLed.takeOwnership); on deactivation
- *    the triggers are restored and the LEDs zeroed, and the battery light
- *    reasserts itself on the next battery event.
- *  - Effects pause while the screen is off (no point burning battery on a
- *    light nobody sees), except the flash-during-calls override.
+ * These strips double as the system battery/charging light: the framework
+ * (LineageBatteryLights in BatteryService) drives them whenever a charger is
+ * connected. That makes the framework a second, independent writer, so the
+ * controller never fights it blindly:
+ *
+ *  - Charging indicator ON (default): while plugged in, effects yield
+ *    entirely. The app writes nothing and the system charging light owns the
+ *    strips, screen on or off. This is stock behavior — no race, no cleanup.
+ *  - Charging indicator OFF: effects win even while charging. Because the
+ *    framework would otherwise overwrite them on every battery event, the app
+ *    suppresses the system battery light (LineageSettings BATTERY_LIGHT_ENABLED)
+ *    for as long as it is actively driving an effect, and restores it on
+ *    release — the restore write nudges BatteryService to repaint immediately,
+ *    so the charging light returns with no dark gap.
+ *  - Effects otherwise pause while the screen is off, except flash-during-calls.
  *  - "Only in games" reuses the trigger feature's game list.
- *  - Charging indicator priority: while the charger is plugged in (and the
- *    setting is on) effects yield entirely so the system battery light owns
- *    the strips, screen on or off. Because BatteryService only rewrites the
- *    light on battery events, the yield seeds the LED with the color the
- *    framework would show instead of zeroing it (see BatteryLight).
  *
- * Priority: flash-during-calls > charging indicator > user effect.
+ * Priority: flash-during-calls > charging indicator (when on) > user effect.
  */
 class LedController(private val context: Context) {
 
     private val repo = LedRepository(context)
     private val rgb = RgbLed(context)
-    private val batteryLight = BatteryLight(context)
     private val activityManager = context.getSystemService(ActivityManager::class.java)
 
     private val thread = HandlerThread("AresParts.Led")
@@ -57,6 +59,7 @@ class LedController(private val context: Context) {
     private var inCall = false
     private var plugged = false
     private var owned = false
+    private var suppressing = false
     private var activeEffect = LedRepository.EFFECT_NONE
 
     // Animation state
@@ -100,6 +103,9 @@ class LedController(private val context: Context) {
         }
         thread.start()
         handler = Handler(thread.looper)
+        // If a previous run died while it had the battery light suppressed,
+        // restore it now so charging never stays dark across a crash.
+        recoverBatteryLight()
         context.registerReceiver(
             receiver,
             IntentFilter().apply {
@@ -129,7 +135,8 @@ class LedController(private val context: Context) {
     /** What should be running right now, given every gate. */
     private fun desiredEffect(): String {
         if (inCall && repo.flashOnCall) return LedRepository.EFFECT_DISCO
-        if (plugged && repo.chargingLight) return EFFECT_CHARGING
+        // Charging indicator on: hand the strips to the system battery light.
+        if (plugged && repo.chargingLight) return LedRepository.EFFECT_NONE
         if (!screenOn) return LedRepository.EFFECT_NONE
         val effect = repo.effect
         if (effect == LedRepository.EFFECT_NONE) return effect
@@ -139,21 +146,15 @@ class LedController(private val context: Context) {
 
     private fun apply() {
         handler.removeCallbacks(tick)
-        val effect = desiredEffect()
-        // The game gate has no event source; poll slowly while it is
-        // relevant so effects both stop on leaving a game and start on
-        // entering one. Not while yielded to the battery light: leaving
-        // the charging state has its own broadcast.
+        // The game gate has no event source; poll slowly while it is relevant
+        // so effects stop on leaving a game and start on entering one.
         handler.removeCallbacks(gameRecheck)
         if (repo.onlyInGames && repo.effect != LedRepository.EFFECT_NONE && screenOn &&
-            effect != EFFECT_CHARGING
+            !(plugged && repo.chargingLight)
         ) {
             handler.postDelayed(gameRecheck, GAME_POLL_MS)
         }
-        if (effect == EFFECT_CHARGING) {
-            yieldToBatteryLight()
-            return
-        }
+        val effect = desiredEffect()
         if (effect == LedRepository.EFFECT_NONE) {
             deactivate()
             return
@@ -162,17 +163,16 @@ class LedController(private val context: Context) {
             rgb.takeOwnership()
             owned = true
         }
+        // While we drive an effect over a charger, keep the system battery
+        // light from overwriting it. Off the charger there is nothing to fight.
+        setBatteryLightSuppressed(plugged)
         if (effect != activeEffect) {
             hue = 0f
             breathStep = 0
             activeEffect = effect
             Log.d(TAG, "effect -> $effect")
         }
-        if (effect == LedRepository.EFFECT_STATIC) {
-            setScaled(repo.color)
-        } else {
-            tick.run()
-        }
+        tick.run()
     }
 
     private fun deactivate() {
@@ -182,43 +182,22 @@ class LedController(private val context: Context) {
             owned = false
             Log.d(TAG, "released LED ownership")
         }
+        // Restoring the setting also nudges BatteryService to repaint the
+        // charging light immediately, so it returns without a dark gap.
+        setBatteryLightSuppressed(false)
     }
-
-    /**
-     * Step aside so the system battery light owns the strips. The framework
-     * wrote its charging color before our broadcast arrived and will not
-     * write again until the next battery event, so instead of zeroing we
-     * seed the LED with the color it expects to be showing.
-     */
-    private fun yieldToBatteryLight() {
-        activeEffect = LedRepository.EFFECT_NONE
-        if (!owned) return
-        rgb.releaseOwnership(turnOff = false)
-        owned = false
-        val sticky = batterySticky()
-        val level = sticky?.let {
-            100 * it.getIntExtra(BatteryManager.EXTRA_LEVEL, 0) /
-                it.getIntExtra(BatteryManager.EXTRA_SCALE, 100).coerceAtLeast(1)
-        } ?: 0
-        val status = sticky?.getIntExtra(
-            BatteryManager.EXTRA_STATUS,
-            BatteryManager.BATTERY_STATUS_UNKNOWN,
-        ) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
-        val color = batteryLight.currentColor(level, status)
-        if (color == null) {
-            rgb.off()
-        } else {
-            rgb.setColor(Color.red(color), Color.green(color), Color.blue(color))
-        }
-        Log.d(TAG, "yielded LEDs to battery light, seed=${color?.let { "#%06X".format(it and 0xFFFFFF) }}")
-    }
-
-    private fun batterySticky(): Intent? =
-        context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
     private val tick = object : Runnable {
         override fun run() {
             val delay = when (activeEffect) {
+                // Static re-asserts on a slow tick: when we first suppress the
+                // battery light BatteryService zeroes the strips once, async,
+                // and a single write would lose that race. Re-writing keeps the
+                // color regardless of ordering.
+                LedRepository.EFFECT_STATIC -> {
+                    setScaled(repo.color)
+                    STATIC_TICK_MS
+                }
                 LedRepository.EFFECT_DISCO -> {
                     setScaled(
                         Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256)),
@@ -251,6 +230,53 @@ class LedController(private val context: Context) {
         )
     }
 
+    /**
+     * Turn the system battery light off (or back on) by driving its
+     * LineageSettings switch, saving the user's value so it can be restored.
+     * Idempotent; the saved value and a recovery flag persist across a crash.
+     */
+    private fun setBatteryLightSuppressed(suppress: Boolean) {
+        if (suppress == suppressing) return
+        if (suppress) {
+            val current = readBatteryLight() ?: return
+            if (current == 0) return // already off in settings, nothing to fight
+            repo.prefs.edit()
+                .putInt(LedRepository.KEY_SAVED_BATTERY_LIGHT, current)
+                .putBoolean(LedRepository.KEY_BATTERY_LIGHT_SUPPRESSED, true)
+                .apply()
+            if (writeBatteryLight(0)) suppressing = true
+        } else {
+            val saved = repo.prefs.getInt(LedRepository.KEY_SAVED_BATTERY_LIGHT, 1)
+            repo.prefs.edit()
+                .putBoolean(LedRepository.KEY_BATTERY_LIGHT_SUPPRESSED, false)
+                .apply()
+            writeBatteryLight(saved)
+            suppressing = false
+        }
+    }
+
+    private fun recoverBatteryLight() {
+        if (!repo.prefs.getBoolean(LedRepository.KEY_BATTERY_LIGHT_SUPPRESSED, false)) return
+        val saved = repo.prefs.getInt(LedRepository.KEY_SAVED_BATTERY_LIGHT, 1)
+        repo.prefs.edit()
+            .putBoolean(LedRepository.KEY_BATTERY_LIGHT_SUPPRESSED, false)
+            .apply()
+        writeBatteryLight(saved)
+        Log.i(TAG, "recovered battery light after unclean shutdown -> $saved")
+    }
+
+    private fun readBatteryLight(): Int? = runCatching {
+        LineageSettings.System.getInt(context.contentResolver, BATTERY_LIGHT_ENABLED, 1)
+    }.getOrNull()
+
+    /** Returns false (and logs) if the write is denied, so state stays honest. */
+    private fun writeBatteryLight(value: Int): Boolean = runCatching {
+        LineageSettings.System.putInt(context.contentResolver, BATTERY_LIGHT_ENABLED, value)
+    }.onFailure { Log.e(TAG, "battery light write <- $value failed: ${it.message}") }.isSuccess
+
+    private fun batterySticky(): Intent? =
+        context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
     private fun isGameForeground(): Boolean {
         val fg = ForegroundApp.packageName(activityManager)
         return fg != null && fg in repo.gameApps
@@ -261,10 +287,12 @@ class LedController(private val context: Context) {
     companion object {
         private const val TAG = "AresParts.Led"
 
-        /** Internal pseudo-effect: yielded to the system battery light. */
-        private const val EFFECT_CHARGING = "charging"
+        // lineageos.providers.LineageSettings.System.BATTERY_LIGHT_ENABLED
+        private const val BATTERY_LIGHT_ENABLED = "battery_light_enabled"
+
         private const val DISCO_TICK_MS = 1000L
         private const val ANIM_TICK_MS = 100L
+        private const val STATIC_TICK_MS = 1000L
         private const val RAINBOW_HUE_STEP = 3f
         private const val BREATH_STEPS = 40 // 4s period at ANIM_TICK_MS
         private const val GAME_POLL_MS = 3000L

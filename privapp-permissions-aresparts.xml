@@ -6,5 +6,6 @@
 <permissions>
     <privapp-permissions package="org.lineageos.settings.ares">
         <permission name="android.permission.CONTROL_DEVICE_LIGHTS" />
+        <permission name="android.permission.WRITE_SECURE_SETTINGS" />
     </privapp-permissions>
 </permissions>
