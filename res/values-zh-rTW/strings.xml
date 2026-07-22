@@ -16,7 +16,7 @@
     <string name="sound_style_none">靜音</string>
     <string name="sound_style_classic">經典</string>
     <string name="sound_style_mechanical">機械</string>
-    <string name="sound_style_car">車門</string>
+    <string name="sound_style_car">汽車</string>
     <string name="sound_style_scifi">科幻</string>
     <string name="trigger_game_apps_title">遊戲應用程式</string>
     <string name="trigger_game_apps_summary">啟用肩鍵映射與定位浮層的應用程式</string>

@@ -17,7 +17,7 @@
     <string name="sound_style_none">Silent</string>
     <string name="sound_style_classic">Classic</string>
     <string name="sound_style_mechanical">Mechanical</string>
-    <string name="sound_style_car">Car door</string>
+    <string name="sound_style_car">Car</string>
     <string name="sound_style_scifi">Sci-fi</string>
     <string name="trigger_game_apps_title">Game apps</string>
     <string name="trigger_game_apps_summary">Apps where trigger mapping and the placement overlay are active</string>

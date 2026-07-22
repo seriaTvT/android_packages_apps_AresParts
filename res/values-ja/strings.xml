@@ -16,7 +16,7 @@
     <string name="sound_style_none">無音</string>
     <string name="sound_style_classic">クラシック</string>
     <string name="sound_style_mechanical">メカニカル</string>
-    <string name="sound_style_car">車のドア</string>
+    <string name="sound_style_car">車</string>
     <string name="sound_style_scifi">SF</string>
     <string name="trigger_game_apps_title">ゲームアプリ</string>
     <string name="trigger_game_apps_summary">トリガーマッピングと配置オーバーレイが有効になるアプリ</string>

@@ -16,7 +16,7 @@
     <string name="sound_style_none">静音</string>
     <string name="sound_style_classic">经典</string>
     <string name="sound_style_mechanical">机械</string>
-    <string name="sound_style_car">车门</string>
+    <string name="sound_style_car">汽车</string>
     <string name="sound_style_scifi">赛博朋克</string>
     <string name="trigger_game_apps_title">游戏应用</string>
     <string name="trigger_game_apps_summary">开启肩键映射与定位叠加层的应用</string>
