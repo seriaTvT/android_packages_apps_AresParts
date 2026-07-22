@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.ListPreference
 import com.android.settingslib.widget.SettingsBasePreferenceFragment
+import org.lineageos.settings.ares.PartsActivity
 import org.lineageos.settings.ares.R
 import org.lineageos.settings.ares.led.LedRepository
 
@@ -23,6 +24,7 @@ class LightingSettingsFragment :
 
     override fun onResume() {
         super.onResume()
+        arguments?.getCharSequence(PartsActivity.ARG_TITLE)?.let { requireActivity().title = it }
         preferenceManager.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
         updateDependentPrefs()
     }

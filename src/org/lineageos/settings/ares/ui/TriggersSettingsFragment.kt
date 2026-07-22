@@ -12,6 +12,7 @@ import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import com.android.settingslib.widget.SettingsBasePreferenceFragment
+import org.lineageos.settings.ares.PartsActivity
 import org.lineageos.settings.ares.PartsService
 import org.lineageos.settings.ares.R
 import org.lineageos.settings.ares.triggers.TriggerActions
@@ -36,6 +37,11 @@ class TriggersSettingsFragment : SettingsBasePreferenceFragment() {
         setupActionPicker(
             TriggerRepository.KEY_ACTION_RIGHT, TriggerRepository.KEY_ACTION_RIGHT_APP, launchables,
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        arguments?.getCharSequence(PartsActivity.ARG_TITLE)?.let { requireActivity().title = it }
     }
 
     /** Launchable apps as package -> label pairs, sorted by label. */

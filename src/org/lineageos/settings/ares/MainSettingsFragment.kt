@@ -32,6 +32,13 @@ class MainSettingsFragment : SettingsBasePreferenceFragment() {
         }
     }
 
+    // Reset the toolbar title whenever the root screen is shown again, e.g.
+    // after a sub-page is popped off the back stack.
+    override fun onResume() {
+        super.onResume()
+        requireActivity().setTitle(R.string.settings_tile_title)
+    }
+
     companion object {
         const val KEY_VIBRATION_STRENGTH = "vibration_strength"
         private const val KEY_CATEGORY_VIBRATION = "category_vibration"
